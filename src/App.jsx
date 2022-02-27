@@ -1,12 +1,29 @@
+import { useEffect } from 'react';
 import './App.css';
 
 const App = () => {
+
+  // function to check if MetaMask connected
+  const checkIfWalletIsConnected = () => {
+    const { ethereum } = window;
+
+    if (!ethereum) {
+      console.log('MetaMask not available');
+    } else {
+      console.log('Etherium Available:', ethereum);
+    }
+  }
+
   // Render Methods
   const renderNotConnectedContainer = () => (
     <button className="cta-button connect-wallet-button">
       Connect to Wallet
     </button>
   );
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, []);
 
   return (
     <div className="App">
