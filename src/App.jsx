@@ -1,16 +1,29 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 const App = () => {
+  const [currentAccount, setCurrentAccount] = useState("");
 
   // function to check if MetaMask connected
-  const checkIfWalletIsConnected = () => {
+  const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
 
     if (!ethereum) {
       console.log('MetaMask not available');
+      return;
     } else {
       console.log('Etherium Available:', ethereum);
+    }
+
+    // set the current account if authorized accounts are found
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+    if (accounts.length !== 0) {
+      const [account] = accounts;
+      console.log('Found Authorized Account:', account);
+      setCurrentAccount(account);
+    } else {
+      console.log('Authorized Account not Found!');
     }
   }
 
