@@ -27,9 +27,27 @@ const App = () => {
     }
   }
 
+  // function to request for MetaMask wallet connection
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+      if (!ethereum) { alert('Get MetaMask to Continue'); return; }
+
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      console.log("Account Connected Successfully:", accounts[0]);
+
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.error("Error in connecting wallet:", error);
+    }
+  };
+
   // Render Methods
   const renderNotConnectedContainer = () => (
-    <button className="cta-button connect-wallet-button">
+    <button
+      className="cta-button connect-wallet-button"
+      onClick={connectWallet}
+    >
       Connect to Wallet
     </button>
   );
