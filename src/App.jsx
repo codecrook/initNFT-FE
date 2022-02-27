@@ -44,6 +44,16 @@ const App = () => {
       console.log('Etherium Available:', ethereum);
     }
 
+    // check if the user is on Rinkeby chain
+    const chainId = await ethereum.request({ method: 'eth_chainId' });
+    console.log("Connected to chain " + chainId);
+
+    const rinkebyChainId = "0x4";
+    if (chainId !== rinkebyChainId) {
+      alert("You are not connected to the Rinkeby Test Network!");
+      return;
+    }
+
     // set the current account if authorized accounts are found
     const accounts = await ethereum.request({ method: 'eth_accounts' });
 
