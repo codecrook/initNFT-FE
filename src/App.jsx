@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ethers } from "ethers";
 import myEpicNft from './utils/MyEpicNFT.json';
+import Button from './components/Button';
 
 import './App.css';
 
@@ -109,22 +110,12 @@ const App = () => {
     }
   };
 
-  // Render Methods
-  const renderNotConnectedContainer = () => (
-    currentAccount === '' ?
-      <button className="cta-button connect-wallet-button" onClick={connectWallet}
-      >
-        Connect to Wallet
-      </button>
-      :
-      <button className="cta-button connect-wallet-button" onClick={askContractToMintNft}>
-        Mint NFT
-      </button>
-  );
-
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
+
+  const isReadyToMint = currentAccount !== '';
+  const clickHandler = isReadyToMint ? askContractToMintNft : connectWallet;
 
   return (
     <div className="App">
@@ -134,7 +125,9 @@ const App = () => {
           <p className="sub-text">
             Each unique. Each beautiful. Discover your NFT today.
           </p>
-          {renderNotConnectedContainer()}
+          <Button className="cta-button connect-wallet-button" onClick={clickHandler}>
+            {isReadyToMint ? 'Mint NFT' : 'Connect to Wallet'}
+          </Button>
         </div>
       </div>
     </div>
