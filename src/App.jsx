@@ -4,9 +4,11 @@ import myEpicNft from './utils/MyEpicNFT.json';
 import Button from './components/Button';
 
 import './App.css';
+import NFTLinkDisplay from './components/NFTLinkDisplay';
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [generatedNFT, setGeneratedNFT] = useState('');
   const CONTRACT_ADDRESS = "CA";
 
   // function to setup event listener.
@@ -21,7 +23,7 @@ const App = () => {
 
         connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
           console.log(from, tokenId.toNumber())
-          alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
+          setGeneratedNFT(tokenId);
         });
 
         console.log("Setup event listener!")
@@ -129,6 +131,8 @@ const App = () => {
             {isReadyToMint ? 'Mint NFT' : 'Connect to Wallet'}
           </Button>
         </div>
+
+        {generatedNFT ? <NFTLinkDisplay contract={CONTRACT_ADDRESS} generatedNFT={generatedNFT} /> : null}
       </div>
     </div>
   );
