@@ -9,6 +9,7 @@ import NFTLinkDisplay from './components/NFTLinkDisplay';
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [generatedNFT, setGeneratedNFT] = useState('');
+  const [minting, setMinting] = useState(false);
   const CONTRACT_ADDRESS = "CA";
 
   // function to setup event listener.
@@ -99,8 +100,10 @@ const App = () => {
         console.log("Going to pop wallet now to pay gas...")
         let nftTxn = await connectedContract.makeAnEpicNFT();
 
-        console.log("Mining...please wait.")
+        console.log("Mining...please wait.");
+        setMinting(true);
         await nftTxn.wait();
+        setMinting(false);
 
         console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
 
@@ -131,8 +134,11 @@ const App = () => {
             {isReadyToMint ? 'Mint NFT' : 'Connect to Wallet'}
           </Button>
         </div>
-
-        {generatedNFT ? <NFTLinkDisplay contract={CONTRACT_ADDRESS} generatedNFT={generatedNFT} /> : null}
+        {minting && <p className="sub-text">Mining...please wait.</p>}
+        {
+          (generatedNFT && !minting) &&
+          <NFTLinkDisplay contract={CONTRACT_ADDRESS} generatedNFT={generatedNFT} />
+        }
       </div>
     </div>
   );

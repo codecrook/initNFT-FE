@@ -9,7 +9,7 @@ const NFTLinkDisplay = ({ contract, generatedNFT }) => {
             <p className="sub-text">
                 Hey there! We've minted your NFT and sent it to your wallet.
             </p>
-            <Button className="cta-button" onClick={clickHandler}>View NFT on OpenSea</Button>
+            <Button className="cta-button opensea-button" onClick={clickHandler}>View NFT on OpenSea</Button>
         </div>
     )
 }
